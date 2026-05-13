@@ -4,7 +4,7 @@ include 'db_connection.php';
 
 if (isset($_POST['run'])) {
     $capacity = $_POST["budget"];
-    
+    $singleProduct = $_POST["singleProduct"];
 
     $input = $_POST["items"];
     $array = array_values(array_filter(array_map('trim', explode(',', $_POST["items"]))));
@@ -30,7 +30,14 @@ if (isset($_POST['run'])) {
         $items[] = $row;
     }
 
-    $_SESSION['selectedItems'] = knapsack($items, $capacity);
+    $filteredItems = [];
+    if ($singleProduct == 'ENABLED') {
+        $filteredItems = filterItems($items);
+    } else {
+        $filteredItems = $items;
+    }
+
+    $_SESSION['selectedItems'] = knapsack($filteredItems, $capacity);
     header("Location: dashboard.php");
 }
 
@@ -71,3 +78,19 @@ function knapsack($items, $capacity) {
     return $selected;
 }
 
+function filterItems($items) {
+    $best = [];
+
+    foreach ($items as $item) {
+        $type = $item['product_type'];
+
+        if (
+            !isset($best[$type]) ||
+            $item['product_score'] > $best[$type]['product_score']
+        ) {
+            $best[$type] = $item;
+        }
+    }
+
+    return array_values($best);
+}

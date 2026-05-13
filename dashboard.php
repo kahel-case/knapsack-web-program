@@ -57,6 +57,10 @@ include 'knapsack.php';
             <input type="number" id="budget" name="budget" placeholder="50.00" required>
         </div>
         <div>
+            <input type="checkbox" id="singleProduct" name="singleProduct" value="ENABLED">
+            <label for="singleProduct">Enable one item per product type</label>
+        </div>
+        <div>
             <button type="submit" name="run">Run Algorithm</button>
         </div>
     </form>
