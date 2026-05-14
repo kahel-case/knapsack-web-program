@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resources/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/dataTables.dataTables.css">
+    <link rel="stylesheet" href="resources/extra.css">
+    
     <title>Register Page</title>
 </head>
 

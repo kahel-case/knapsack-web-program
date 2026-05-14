@@ -3,27 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resources/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/dataTables.dataTables.css">
+    <link rel="stylesheet" href="resources/extra.css">
     <title>Knapsack</title>
+
 </head>
 
 <body>
-    <div>
+
+    <div class="login-card">
+
+        <!-- GIF goes here -->
+        <div class="gif-container">
+            <img src="resources/images/cute-dog.gif" alt="Animated GIF">
+        </div>
+
         <h1>Login</h1>
+
         <form action="login.php" method="post">
-            <div>
-                <label for="username">Username: </label>
-                <input type="text" id="username" name="username" required>
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required>
             </div>
-            <div>
-                <label for="password">Password: </label>
-                <input type="password" id="password" name="password" required>
+
+            <div class="mb-4">
+                <label for="password" class="form-label">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    class="form-control"
+                    required>
             </div>
-            <div>
-                <button type="button" onclick="window.location.href='register.php'">Sign-up</button>
-                <button type="submit">Login</button>
+
+            <div class="d-grid gap-2">
+                <button 
+                    type="submit" 
+                    class="btn btn-primary">
+                    Login
+                </button>
+
+                <button 
+                    type="button" 
+                    class="btn btn-outline-secondary"
+                    onclick="window.location.href='register.php'">
+                    Sign Up
+                </button>
             </div>
+
         </form>
     </div>
+
 </body>
 
 </html>

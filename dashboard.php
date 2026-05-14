@@ -1,7 +1,6 @@
 <?php 
-include 'knapsack.php';
+    include 'knapsack.php';
     include 'validate_session.php';
-    
 ?>
 
 <!DOCTYPE html>
@@ -9,6 +8,9 @@ include 'knapsack.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resources/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/dataTables.dataTables.css">
+    
     <title>Dashboard</title>
 </head>
 
@@ -65,6 +67,7 @@ include 'knapsack.php';
         </div>
     </form>
 
+    <?php include 'scripts.php' ?>
 </body>
 
 </html>
