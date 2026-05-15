@@ -1,0 +1,39 @@
+body {
+    min-height: 100vh;
+    background:
+        url('../resources/images/maple-leaves.gif') repeat,
+        linear-gradient(135deg, #ffb77c, #ffeea3, #fffab0);
+}
+
+/* Header */
+.navbar {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+}
+
+/* Main card */
+.admin-card {
+    max-width: 900px;
+    padding: 2rem;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    backdrop-filter: blur(8px);
+}
+
+/* Inputs */
+.form-control {
+    border-radius: 12px;
+    padding: 10px;
+}
+
+/* Button */
+.btn {
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Title */
+h2 {
+    font-weight: bold;
+}
