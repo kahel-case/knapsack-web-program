@@ -11,24 +11,38 @@
 </head>
 
 <body>
-    <div>
+    <div class="login-card">
+
+        <!-- Optional GIF -->
+        <div class="gif-container">
+            <img src="images/your-gif.gif" alt="Animated GIF">
+        </div>
+
         <h1>Register</h1>
+
         <form action="register_user.php" method="post">
-            <div>
-                <label for="username">Username: </label>
-                <input type="text" id="username" name="username" required>
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required>
             </div>
-            <div>
-                <label for="password">Password: </label>
-                <input type="password" id="password" name="password" required>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
             </div>
-            <div>
-                <label for="confirm_password">Confirm Password: </label>
-                <input type="password" id="confirm_password" name="confirm_password" required>
+
+            <div class="mb-4">
+                <label for="confirm_password" class="form-label">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
             </div>
-            <div>
-                <button type="submit">Register</button>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Register</button>
+
+                <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='index.php'">Back to Login</button>
             </div>
+
         </form>
     </div>
 </body>
