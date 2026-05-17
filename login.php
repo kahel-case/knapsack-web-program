@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $sql = "SELECT username, password, role FROM users WHERE username = ?";
+    $sql = "SELECT * FROM users WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (password_verify($password, $row['password'])) {
             $_SESSION['username'] = $row['username'];
+            $_SESSION['user_id'] = $row['user_id'];
             
             if ($row['role'] == 'ADMIN') {
                 header("Location: admin_dashboard.php");

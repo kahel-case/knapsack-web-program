@@ -3,7 +3,7 @@ body {
 
     /* Gradient base + transparent repeating tile on top */
     background:
-        url('../resources/images/maple-leaves.gif') repeat,
+        url('images/maple-leaves.gif') repeat,
         linear-gradient(135deg, #ffb77c, #ffeea3, #fffab0);
 
     display: flex;
@@ -16,7 +16,7 @@ body {
     max-width: 420px;
     padding: 2rem;
     border-radius: 20px;
-    background: linear-gradient(135deg, #d7deff, #edfdff, #fdffff);
+    background: linear-gradient(135deg, #fffffc, #edfdff, #fdffff);
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     backdrop-filter: blur(8px);
 }
@@ -47,4 +47,12 @@ h1 {
     text-align: center;
     margin-bottom: 1rem;
     font-weight: bold;
+}
+
+.modal {
+    will-change: transform;
+}
+
+.modal.fade .modal-dialog {
+    transform: none !important;
 }

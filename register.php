@@ -15,7 +15,7 @@
 
         <!-- Optional GIF -->
         <div class="gif-container">
-            <img src="images/your-gif.gif" alt="Animated GIF">
+            <img src="images/cute-dog.gif" alt="Animated GIF">
         </div>
 
         <h1>Register</h1>
@@ -38,9 +38,8 @@
             </div>
 
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">Register</button>
-
-                <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='index.php'">Back to Login</button>
+                <button type="submit" class="btn btn-warning rounded-pill">Register</button>
+                <button type="button" class="btn btn-outline-warning rounded-pill" onclick="window.location.href='index.php'">Back to Login</button>
             </div>
 
         </form>

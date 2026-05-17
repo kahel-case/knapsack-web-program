@@ -1,7 +1,7 @@
 body {
     min-height: 100vh;
     background:
-        url('../resources/images/maple-leaves.gif') repeat,
+        url('images/maple-leaves.gif') repeat,
         linear-gradient(135deg, #ffb77c, #ffeea3, #fffab0);
 }
 

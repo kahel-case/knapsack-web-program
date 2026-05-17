@@ -8,7 +8,6 @@ if (isset($_POST['run'])) {
 
     $input = $_POST["items"];
     $array = array_values(array_filter(array_map('trim', explode(',', $_POST["items"]))));
-
     $placeholders = implode(',', array_fill(0, count($array), '?'));
 
     $sql = "SELECT p.*, b.brand_name, pl.platform_name, pt.product_type
@@ -37,7 +36,9 @@ if (isset($_POST['run'])) {
         $filteredItems = $items;
     }
 
+    $_SESSION['selectedTypes'] = filterItems($filteredItems);
     $_SESSION['selectedItems'] = knapsack($filteredItems, $capacity);
+    $_SESSION['totalPrice'] = totalPrice($_SESSION['selectedItems']);
     header("Location: dashboard.php");
 }
 
@@ -93,4 +94,14 @@ function filterItems($items) {
     }
 
     return array_values($best);
+}
+
+function totalPrice($items) {
+    $total = 0;
+
+    foreach ($items as $item) {
+        $total += $item['product_price'];
+    }
+
+    return $total;
 }
