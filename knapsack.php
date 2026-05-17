@@ -3,43 +3,75 @@ session_start();
 include 'db_connection.php';
 
 if (isset($_POST['run'])) {
-    $capacity = $_POST["budget"];
-    $singleProduct = $_POST["singleProduct"];
+    // Input handling
+    $capacity = $_POST["budget"] ?? $_SESSION["budget"] ?? 0;
+    $user_id = $_POST['user_id'] ?? $_SESSION['user_id'];
 
-    $input = $_POST["items"];
-    $array = array_values(array_filter(array_map('trim', explode(',', $_POST["items"]))));
+    $singleProduct = isset($_POST["singleProduct"]) ? 'ENABLED' : (($_SESSION['singleProduct'] ?? false) ? 'ENABLED' : '');
+    $itemsInput = $_POST["items"] ?? $_SESSION["items"] ?? '';
+
+    // Session Storing
+    $_SESSION['items'] = $itemsInput;
+    $_SESSION['budget'] = $capacity;
+    $_SESSION['singleProduct'] = ($singleProduct === 'ENABLED');
+
+    // Process items into an array
+    $array = array_values(array_filter(array_map('trim', explode(',', $itemsInput))));
+
+    if (empty($array)) {
+        $_SESSION['selectedItems'] = [];
+        $_SESSION['selectedTypes'] = [];
+        $_SESSION['totalPrice'] = 0;
+
+        header("Location: dashboard.php");
+        exit;
+    }
+
+    // Develop query
     $placeholders = implode(',', array_fill(0, count($array), '?'));
-
     $sql = "SELECT p.*, b.brand_name, pl.platform_name, pt.product_type
             FROM products p
             JOIN brands b ON b.brand_id = p.brand_id
             JOIN platforms pl ON pl.platform_id = p.platform_id
             JOIN product_types pt ON pt.product_type_id = p.product_type_id
-            WHERE pt.product_type IN ($placeholders)";
+            WHERE pt.product_type IN ($placeholders)
+            AND NOT EXISTS (
+                SELECT 1
+                FROM excluded_items ei
+                WHERE ei.product_id = p.product_id
+                AND ei.user_id = ?
+            )";
 
     $stmt = $conn->prepare($sql);
-    $types = str_repeat('s', count($array)); // "sss"
-    $stmt->bind_param($types, ...$array);
+
+    $types = str_repeat('s', count($array)) . 'i';
+    $params = array_merge($array, [$user_id]);
+
+    $stmt->bind_param($types, ...$params);
     $stmt->execute();
+
     $result = $stmt->get_result();
 
-
+    // Retrieve items
     $items = [];
     while ($row = $result->fetch_assoc()) {
         $items[] = $row;
     }
 
-    $filteredItems = [];
-    if ($singleProduct == 'ENABLED') {
+    // Check if item filter is enabled
+    if ($singleProduct === 'ENABLED') {
         $filteredItems = filterItems($items);
     } else {
         $filteredItems = $items;
     }
 
+    // Run knapsack algorithm
     $_SESSION['selectedTypes'] = filterItems($filteredItems);
     $_SESSION['selectedItems'] = knapsack($filteredItems, $capacity);
     $_SESSION['totalPrice'] = totalPrice($_SESSION['selectedItems']);
+
     header("Location: dashboard.php");
+    exit;
 }
 
 function knapsack($items, $capacity) {

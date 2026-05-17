@@ -10,3 +10,12 @@
         $('#myTable').DataTable();
     } );
 </script>
+
+<script>
+    window.onload = function () {
+        const open = new URLSearchParams(window.location.search).get("openModal");
+        if (open) {
+            document.getElementById("run_algorithm")?.click();
+        }
+    };
+</script>
