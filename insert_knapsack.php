@@ -14,13 +14,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("iss",$user_id,$knapsack_name,$startDate);
 
     if($stmt->execute()){
-        echo "<script>alert('Successfully created knapsack!'); window.location.href='dashboard.php';</script>";
+        $_SESSION['msg'] = "Successfully created knapsack!" ;
+        header("Location: dashboard.php");
     }else{
-        echo "<script>alert('Error occurred while registering.'); window.location.href='dashboard.php';</script>";
+        $_SESSION['msg'] = "Error when created knapsack!" ;
+        header("Location: dashboard.php");
     }
 
-        
-
     $stmt->close();
-    
 }

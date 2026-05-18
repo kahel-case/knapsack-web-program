@@ -17,7 +17,19 @@ body {
 }
 
 .selected-scroll {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.selected-scroll-1 {
     max-height: 600px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.selected-scroll-2 {
+    max-height: 700px;
     overflow-y: auto;
     padding-right: 8px;
 }
@@ -48,3 +60,41 @@ body {
     background: rgba(0,0,0,0.2);
     border-radius: 10px;
 }
+
+/* Hidden Checkbox */
+/* Hide the actual checkbox */
+        .hidden-checkbox {
+    display: none;
+}
+
+        /* Style the label to look like a button */
+        .button-label-exclude {
+        display: inline-block;
+        background-color: transparent;
+        border: 2px solid #fc4040;
+        cursor: pointer;
+        border-radius: 5px;
+        user-select: none; /* Prevents text selection on rapid clicks */
+        }
+
+        .button-label-include {
+        display: inline-block;
+        background-color: transparent;
+        border: 2px solid #39c900;
+        cursor: pointer;
+        border-radius: 5px;
+        user-select: none; /* Prevents text selection on rapid clicks */
+        }
+
+        /* Change appearance when the hidden checkbox is checked */
+        .hidden-checkbox:checked + .button-label-exclude {
+        background-color: #fc4040;
+        color: white;
+        border-color: #fc4040;
+        }
+
+        .hidden-checkbox:checked + .button-label-include {
+        background-color: #39c900;
+        color: white;
+        border-color: #39c900;
+        }

@@ -7,13 +7,13 @@ if (isset($_POST['run'])) {
     $capacity = $_POST["budget"] ?? $_SESSION["budget"] ?? 0;
     $user_id = $_POST['user_id'] ?? $_SESSION['user_id'];
 
-    $singleProduct = isset($_POST["singleProduct"]) ? 'ENABLED' : (($_SESSION['singleProduct'] ?? false) ? 'ENABLED' : '');
+    $singleProduct = isset($_POST["singleProduct"]);
     $itemsInput = $_POST["items"] ?? $_SESSION["items"] ?? '';
 
     // Session Storing
     $_SESSION['items'] = $itemsInput;
     $_SESSION['budget'] = $capacity;
-    $_SESSION['singleProduct'] = ($singleProduct === 'ENABLED');
+    $_SESSION['singleProduct'] = $singleProduct;
 
     // Process items into an array
     $array = array_values(array_filter(array_map('trim', explode(',', $itemsInput))));
@@ -34,18 +34,23 @@ if (isset($_POST['run'])) {
             JOIN brands b ON b.brand_id = p.brand_id
             JOIN platforms pl ON pl.platform_id = p.platform_id
             JOIN product_types pt ON pt.product_type_id = p.product_type_id
-            WHERE pt.product_type IN ($placeholders)
-            AND NOT EXISTS (
-                SELECT 1
-                FROM excluded_items ei
-                WHERE ei.product_id = p.product_id
+
+            LEFT JOIN excluded_items ei
+                ON ei.product_id = p.product_id
                 AND ei.user_id = ?
-            )";
+
+            LEFT JOIN included_items ii
+                ON ii.product_id = p.product_id
+                AND ii.user_id = ?
+
+            WHERE pt.product_type IN ($placeholders)
+            AND ei.product_id IS NULL
+            AND ii.product_id IS NULL";
 
     $stmt = $conn->prepare($sql);
 
-    $types = str_repeat('s', count($array)) . 'i';
-    $params = array_merge($array, [$user_id]);
+    $types = 'ii' . str_repeat('s', count($array));
+    $params = array_merge([$user_id, $user_id], $array);
 
     $stmt->bind_param($types, ...$params);
     $stmt->execute();
@@ -59,7 +64,7 @@ if (isset($_POST['run'])) {
     }
 
     // Check if item filter is enabled
-    if ($singleProduct === 'ENABLED') {
+    if ($singleProduct) {
         $filteredItems = filterItems($items);
     } else {
         $filteredItems = $items;
@@ -136,4 +141,8 @@ function totalPrice($items) {
     }
 
     return $total;
+}
+
+function phpAlert($msg) {
+    echo '<script type="text/javascript">alert("' . $msg . '")</script>';
 }
