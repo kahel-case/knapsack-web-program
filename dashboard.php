@@ -199,15 +199,14 @@
         </div>
     </div>
 
-    <!-- MODAL (MUST BE OUTSIDE ALL FORMS) -->
+    <!-- Create Knapsack Modal -->
     <div class="modal fade" id="createKnapsack" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
 
                 <div class="modal-header bg-warning text-white">
                     <h5 class="modal-title">Create Knapsack</h5>
-                    <button type="button" class="btn-close btn-close-white"
-                            data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
                 <form action="insert_knapsack.php" method="post">
@@ -217,10 +216,7 @@
                     <div class="modal-body p-4">
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Knapsack Name</label>
-                            <input type="text"
-                                class="form-control rounded-3"
-                                name="knapsack_name"
-                                required>
+                            <input type="text" class="form-control rounded-3" name="knapsack_name" required>
                         </div>
                     </div>
 
