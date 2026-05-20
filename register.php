@@ -13,12 +13,7 @@
 <body>
     <div class="login-card">
 
-        <!-- Optional GIF -->
-        <div class="gif-container">
-            <img src="images/cute-dog.gif" alt="Animated GIF">
-        </div>
-
-        <h1>Register</h1>
+        <h1 class="mt-4">Register</h1>
 
         <form action="register_user.php" method="post">
 
@@ -38,7 +33,7 @@
             </div>
 
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-warning rounded-pill">Register</button>
+                <button type="submit" class="btn btn-warning rounded-pill text-white">Register</button>
                 <button type="button" class="btn btn-outline-warning rounded-pill" onclick="window.location.href='index.php'">Back to Login</button>
             </div>
 

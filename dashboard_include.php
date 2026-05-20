@@ -77,78 +77,126 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm px-4">
-        <div class="container-fluid">
-            <span class="navbar-brand fw-bold fs-3">Knapsack Dashboard</span>
-            <div class="d-flex align-items-center gap-3">
-                <span class="text-white">Welcome, <strong><?= $_SESSION['username'] ?></strong></span>
-                <button class="btn btn-danger btn-sm rounded-pill" onclick="window.location.href='logout.php'"><strong>Logout</strong></button>
-            </div>
-        </div>
-    </nav>
+    <?php include 'header.php'; ?>
 
     <div class="container py-4">
         <div class="card shadow border-0 dashboard-card">
 
-            <div class="card-body">
-                <h3 class="mb-3">Knapsack List</h3>
-                <div class="selected-scroll-1">
-                    <?php if (empty($knapsacks)): ?>
-                    <div class="alert alert-warning">
-                        There are currently no available knapsacks.<br>
-                    </div>
-                    <?php else: ?>
-                        <?php foreach ($knapsacks as $id => $knapsack): ?>
-                            <div class="knapsack">
-                                <!-- Trigger Element -->
-                                <button type="button" class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#knapsack-<?= $knapsack['knapsack_id'] ?>"><?= htmlspecialchars($knapsack['name']) ?></button>
-                                <form action="delete_knapsack.php" method="post">
-                                    <input type="hidden" id="delete_knapsack" name="delete_knapsack" value="<?= $knapsack['knapsack_id'] ?>" required>
-                                    <input type="hidden" id="user_id" name="user_id" value="<?= $_SESSION['user_id'] ?>" required>
-                                    <button type="submit" class="btn btn-danger">Delete Knapsack</button>
-                                </form>                                
-                                <div class="collapse" id="knapsack-<?= $knapsack['knapsack_id'] ?>">
-                                    <div class="card card-body mt-2">
-                                        <?php if (!empty($knapsack['items'])): ?>
-                                            <?php foreach ($knapsack['items'] as $item): ?>
-                                                <div class="product-card">
-                                                    <h5><a href="platform_redirect.php" class=""><?= $item['product_name'] ?></a></h5>
-                                                    <p><strong>Type: </strong><?= $item['product_type'] ?></p>
-                                                    <p><strong>Brand: </strong><?= $item['brand_name'] ?></p>
-                                                    <p><strong>Price: </strong>₱<?= number_format($item['product_price'], 2) ?></p>
-                                                    <p><strong>Score: </strong><?= number_format($item['product_score'], 0) ?>
-                                                        <?php if ($item['product_star_rating'] > 4): ?>
-                                                            <div class="badge bg-success text-white"><?= $item['product_star_rating'] ?>★</div>
-                                                            <div class="badge bg-success text-white"><?= $item['product_reviews'] ?></div>
-                                                        <?php elseif ($item['product_star_rating'] > 3): ?>
-                                                            <div class="badge bg-warning text-white"><?= $item['product_star_rating'] ?>★</div>
-                                                            <div class="badge bg-warning text-white"><?= $item['product_reviews'] ?></div>
-                                                        <?php else: ?>
-                                                            <div class="badge bg-danger text-white"><?= $item['product_star_rating'] ?>★</div>
-                                                            <div class="badge bg-danger text-white"><?= $item['product_reviews'] ?></div>
-                                                        <?php endif; ?>
-                                                    </p>
-                                                    <p><strong>Platform: </strong><?= $item['platform_name'] ?></p>
-                                                    <form action="remove_item.php" method="post">
-                                                        <input type="hidden" id="inclusion_id" name="inclusion_id" value="<?= $item['inclusion_id'] ?>" required>
-                                                        <input type="hidden" id="user_id" name="user_id" value="<?= $_SESSION['user_id'] ?>" required>
-                                                        <button type="submit" class="btn btn-danger">Remove Item</button>
-                                                    </form>  
-                                                </div>
-                                            <?php endforeach; ?>
-                                        <?php else: ?>
-                                            <p>No items.</p>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+            <div class="card shadow-sm border-0">
+    <div class="card-body">
 
-                    <?php endif; ?>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0">Knapsack List</h3>
+        </div>
+
+        <div class="accordion selected-scroll-1" id="knapsackAccordion">
+
+            <?php if (empty($knapsacks)): ?>
+                <div class="alert alert-warning mb-0">
+                    No knapsacks available.
                 </div>
+            <?php else: ?>
 
-                <button type="button" onclick="window.location.href='back.php'" class="btn btn-success flex-fill rounded-pill px-xl-4  ">Back</button>
-            </div>
+                <?php foreach ($knapsacks as $id => $knapsack): ?>
+                    <div class="accordion-item mb-2 border rounded">
+
+                        <h2 class="accordion-header d-flex align-items-center justify-content-between px-3 py-2">
+
+                            <button class="accordion-button collapsed bg-light shadow-none"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#knapsack-<?= $knapsack['knapsack_id'] ?>">
+                                <?= htmlspecialchars($knapsack['name']) ?>
+                            </button>
+
+                            <form action="delete_knapsack.php" method="post" class="ms-2">
+                                <input type="hidden" name="delete_knapsack" value="<?= $knapsack['knapsack_id'] ?>">
+                                <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
+                                <button class="btn btn-sm btn-outline-danger">
+                                    Delete
+                                </button>
+                            </form>
+
+                        </h2>
+
+                        <div id="knapsack-<?= $knapsack['knapsack_id'] ?>" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+
+                                <?php if (!empty($knapsack['items'])): ?>
+                                    <div class="row g-3">
+
+                                        <?php foreach ($knapsack['items'] as $item): ?>
+                                            <div class="col-md-6">
+
+                                                <div class="card h-100 shadow-sm border-0">
+                                                    <div class="card-body">
+
+                                                        <h5 class="card-title">
+                                                            <a href="platform_redirect.php">
+                                                                <?= htmlspecialchars($item['product_name']) ?>
+                                                            </a>
+                                                        </h5>
+
+                                                        <p class="mb-1"><strong>Type:</strong> <?= $item['product_type'] ?></p>
+                                                        <p class="mb-1"><strong>Brand:</strong> <?= $item['brand_name'] ?></p>
+                                                        <p class="mb-1"><strong>Price:</strong> ₱<?= number_format($item['product_price'], 2) ?></p>
+                                                        <p class="mb-2"><strong>Score:</strong> <?= number_format($item['product_score'], 0) ?></p>
+
+                                                        <?php
+                                                            $rating = $item['product_star_rating'];
+                                                            $badge = $rating > 4 ? "success" : ($rating > 3 ? "warning" : "danger");
+                                                        ?>
+
+                                                        <div class="mb-2">
+                                                            <span class="badge bg-<?= $badge ?>">
+                                                                <?= $rating ?>★
+                                                            </span>
+                                                            <span class="badge bg-secondary">
+                                                                <?= $item['product_reviews'] ?> reviews
+                                                            </span>
+                                                        </div>
+
+                                                        <p class="mb-3"><strong>Platform:</strong> <?= $item['platform_name'] ?></p>
+
+                                                        <form action="remove_item.php" method="post">
+                                                            <input type="hidden" name="inclusion_id" value="<?= $item['inclusion_id'] ?>">
+                                                            <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
+                                                            <button class="btn btn-sm btn-outline-danger">
+                                                                Remove Item
+                                                            </button>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        <?php endforeach; ?>
+
+                                    </div>
+                                <?php else: ?>
+                                    <div class="text-muted">No items in this knapsack.</div>
+                                <?php endif; ?>
+
+                            </div>
+                        </div>
+
+                    </div>
+                <?php endforeach; ?>
+
+            <?php endif; ?>
+
+        </div>
+
+        <div class="mt-3">
+            <button type="button"
+                    onclick="window.location.href='back.php'"
+                    class="btn btn-success rounded-pill px-4">
+                Back
+            </button>
+        </div>
+
+    </div>
+</div>
 
         </div>                            
     </div>

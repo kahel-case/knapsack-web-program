@@ -71,8 +71,8 @@ if (isset($_POST['run'])) {
     }
 
     // Run knapsack algorithm
-    $_SESSION['selectedTypes'] = filterItems($filteredItems);
     $_SESSION['selectedItems'] = knapsack($filteredItems, $capacity);
+    $_SESSION['selectedTypes'] = filterItems($_SESSION['selectedItems']);
     $_SESSION['totalPrice'] = totalPrice($_SESSION['selectedItems']);
 
     header("Location: dashboard.php");

@@ -17,7 +17,7 @@
         <div class="gif-container">
             <img src="resources/images/cute-dog.gif" alt="Animated GIF">
         </div>
-        <h1>Login</h1>
+        <h1>Snapsack: Login</h1>
         <form action="login.php" method="post">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
@@ -28,7 +28,7 @@
                 <input type="password" id="password" name="password" class="form-control" required>
             </div>
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-warning rounded-pill">Login</button>
+                <button type="submit" class="btn btn-warning rounded-pill text-white">Login</button>
                 <button type="button" class="btn btn-outline-warning rounded-pill" onclick="window.location.href='register.php'">Sign Up</button>
             </div>
         </form>
